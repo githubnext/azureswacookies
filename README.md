@@ -1,38 +1,23 @@
-# create-svelte
+This repo is a minimal reproduction of the issue where Azure Static Webapps strips out cookies that are set.
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+It's probably related to this issue: https://github.com/Azure/static-web-apps/issues/760
 
-## Creating a project
+To run locally: `pnpm install` and then `pnpm dev`
 
-If you're seeing this, you've probably already done this step. Congrats!
+I've set this up to deploy to Azure SWA and you can see the difference between requests made to the local devserver:
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+![screenshot of terminal](problem.png)
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+Notice that in production, the `set-cookie` header is not included even though the `arr-disable-session-affinity` header is correctly passed through. Both are set in the same file. You can see in [src/hooks.server.ts](./src/hooks.server.ts):
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+```ts
+export const handle: Handle = async ({ event, resolve }) => {
+	event.setHeaders({ 'Arr-Disable-Session-Affinity': 'true' });
+	event.cookies.set('testcookie', 'testcookie', {
+		path: '/',
+		maxAge: 31536000000,
+		sameSite: "lax",
+		httpOnly: false,
+	});
+	return await resolve(event);
+};
