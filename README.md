@@ -4,7 +4,7 @@ It's probably related to this issue: https://github.com/Azure/static-web-apps/is
 
 To run locally: `pnpm install` and then `pnpm dev`
 
-I've set this up to deploy to Azure SWA and you can see the difference between requests made to the local devserver:
+I've set this up to deploy to Azure SWA and you can see the difference between requests made to the local devserver and Azure SWA:
 
 ![screenshot of terminal](problem.png)
 
