@@ -11,5 +11,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		httpOnly: false,
 		domain: event.url.hostname,
 	});
+
+	event.setHeaders({'X-All-The-Cookies': JSON.stringify(event.cookies.getAll())});
 	return await resolve(event);
 };
