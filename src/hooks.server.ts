@@ -8,7 +8,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 		path: '/',
 		maxAge: 31536000000,
 		sameSite: "lax",
-		httpOnly: false,
 		domain: event.url.hostname,
 	});
 
