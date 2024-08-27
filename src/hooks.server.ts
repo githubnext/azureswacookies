@@ -6,9 +6,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 	event.setHeaders({ 'X-My-Path-Is': event.url.pathname });
 	event.cookies.set('testcookie', 'testcookie', {
 		path: '/',
-		maxAge: 31536000000,
-		sameSite: "lax",
-		domain: event.url.hostname,
 	});
 
 	event.setHeaders({'X-All-The-Cookies': JSON.stringify(event.cookies.getAll())});
