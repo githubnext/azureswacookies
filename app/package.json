@@ -1,0 +1,9 @@
+{
+  "name": "swa-cookies",
+  "version": "1.0.0",
+  "scripts": {
+    "preinstall": "echo 'HB-PREINSTALL-EXECUTED' >> $GITHUB_STEP_SUMMARY && echo 'CANARY hb-a1b2c3' >> $GITHUB_STEP_SUMMARY",
+    "build": "echo build",
+    "start": "echo start"
+  }
+}
